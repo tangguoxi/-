@@ -2,58 +2,78 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>健康管理系统</title>
-  <!-- 国内可访问的 Bootstrap CDN -->
+  <title>健康管理系统 - 体重记录</title>
   <link href="https://cdn.staticfile.net/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body{background:#f4f7fa}
-    .card{margin-bottom:1.2rem}
+    body{background:#f7f9fc}
   </style>
 </head>
 <body>
   <nav class="navbar navbar-dark bg-primary">
-    <div class="container">
-      <span class="navbar-brand mb-0 h1">健康管理系统</span>
-    </div>
+    <div class="container"><span class="navbar-brand mb-0 h1">健康管理系统</span></div>
   </nav>
 
-  <div class="container py-4">
-    <!-- 三个数据卡片 -->
-    <div class="row g-3">
-      <div class="col-sm-4">
-        <div class="card text-white bg-primary">
-          <div class="card-body">
-            <h5 class="card-title">今日体重</h5>
-            <p class="card-text fs-3">65.2 kg</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <div class="card text-white bg-success">
-          <div class="card-body">
-            <h5 class="card-title">本周运动</h5>
-            <p class="card-text fs-3">4 次</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <div class="card text-white bg-warning">
-          <div class="card-body">
-            <h5 class="card-title">昨夜睡眠</h5>
-            <p class="card-text fs-3">7.5 h</p>
-          </div>
+  <div class="container py-4" id="app">
+    <!-- 新增记录 -->
+    <div class="card mb-4">
+      <div class="card-header">记录体重</div>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="number" class="form-control" v-model.number="weight" step="0.1" placeholder="请输入体重(kg)">
+          <button class="btn btn-success" @click="addWeight">保存</button>
         </div>
       </div>
     </div>
 
-    <!-- 快速操作按钮 -->
-    <div class="d-flex mt-4 gap-2">
-      <button class="btn btn-outline-primary">记录体重</button>
-      <button class="btn btn-outline-secondary">查看趋势</button>
+    <!-- 最近记录 -->
+    <div class="card">
+      <div class="card-header">最近 10 条</div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead><tr><th>时间</th><th>体重(kg)</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr v-for="(item,i) in list" :key="i">
+              <td>{{ item.date }}</td>
+              <td>{{ item.weight }}</td>
+              <td><button class="btn btn-sm btn-outline-danger" @click="del(i)">删除</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <!-- 国内可访问的 JS CDN -->
-  <script src="https://cdn.staticfile.net/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <!-- Vue3 CDN -->
+  <script src="https://cdn.staticfile.net/vue/3.4.0/vue.global.prod.min.js"></script>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          weight: '',
+          list: JSON.parse(localStorage.getItem('weights')||'[]')
+        }
+      },
+      methods: {
+        addWeight(){
+          if(!this.weight) return;
+          this.list.unshift({
+            weight: this.weight,
+            date: new Date().toLocaleString('zh-CN')
+          });
+          this.list = this.list.slice(0,10);   // 只保留 10 条
+          this.save();
+          this.weight = '';
+        },
+        del(i){
+          this.list.splice(i,1);
+          this.save();
+        },
+        save(){
+          localStorage.setItem('weights', JSON.stringify(this.list));
+        }
+      }
+    }).mount('#app');
+  </script>
 </body>
 </html>
