@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>健康管理系统</title>
+  <!-- 国内可访问的 Bootstrap CDN -->
+  <link href="https://cdn.staticfile.net/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body{background:#f4f7fa}
+    .card{margin-bottom:1.2rem}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+      <span class="navbar-brand mb-0 h1">健康管理系统</span>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <!-- 三个数据卡片 -->
+    <div class="row g-3">
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h5 class="card-title">今日体重</h5>
+            <p class="card-text fs-3">65.2 kg</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card text-white bg-success">
+          <div class="card-body">
+            <h5 class="card-title">本周运动</h5>
+            <p class="card-text fs-3">4 次</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card text-white bg-warning">
+          <div class="card-body">
+            <h5 class="card-title">昨夜睡眠</h5>
+            <p class="card-text fs-3">7.5 h</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 快速操作按钮 -->
+    <div class="d-flex mt-4 gap-2">
+      <button class="btn btn-outline-primary">记录体重</button>
+      <button class="btn btn-outline-secondary">查看趋势</button>
+    </div>
+  </div>
+
+  <!-- 国内可访问的 JS CDN -->
+  <script src="https://cdn.staticfile.net/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
